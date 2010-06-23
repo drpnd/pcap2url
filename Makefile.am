@@ -1,0 +1,18 @@
+#
+# $Id: Makefile.am,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $
+#
+# Copyright (c) 2010 Scyphus Solutions Co.,Ltd. All rights reserved.
+# Authors:
+#      Hirochika Asai  <asai@scyphus.co.jp>
+#
+
+INCLUDES = -I$(top_srcdir)/include
+
+SUBDIRS = include lib .
+
+bin_PROGRAMS = anacap
+anacap_SOURCES = main.c
+anacap_LDFLAGS = -static $(top_builddir)/lib/libanacap.la
+
+EXTRA_DIST = LICENSE
+CLEANFILES = *~

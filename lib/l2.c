@@ -5,15 +5,20 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: l2.c,v 9da8dacb89c3 2010/05/14 15:48:02 Hirochika $ */
+/* $Id: l2.c,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $ */
+
+#include "anacap.h"
+#include "anacap_private.h"
+
+#include <stdlib.h>
 
 void *
 pana_l2_proc(unsigned char *mbuf, uint32_t type)
 {
-
     return NULL;
 }
 
+#if 0
 void
 _proc_ethernet_frame(unsigned char *mbuf, size_t psize, size_t orig_len)
 {
@@ -40,7 +45,7 @@ _proc_ethernet_frame(unsigned char *mbuf, size_t psize, size_t orig_len)
     offset += 12;
 
     /* get the frame type */
-    type = _bs2uint16(mbuf + offset, _PANA_ENDIAN_NETWORK);
+    type = _bs2uint16(mbuf + offset, _ENDIAN_NETWORK);
     offset += 2;
 
     /* check ethernet type */
@@ -85,7 +90,7 @@ _proc_802_11_frame(unsigned char *mbuf, size_t psize, size_t orig_len)
     offset = 0;
 
     /* get frame control: swapped... */
-    frame_control = _bs2uint16(mbuf + offset, _PANA_ENDIAN_NETWORK);
+    frame_control = _bs2uint16(mbuf + offset, _ENDIAN_NETWORK);
     offset += 2;
 
     /* get duration: not swapped */
@@ -140,6 +145,7 @@ _proc_802_11_frame(unsigned char *mbuf, size_t psize, size_t orig_len)
         /* length in type */
     }
 }
+#endif
 
 /*
  * Local variables:

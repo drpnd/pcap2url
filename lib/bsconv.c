@@ -5,25 +5,28 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: bsconv.c,v 9da8dacb89c3 2010/05/14 15:48:02 Hirochika $ */
+/* $Id: bsconv.c,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $ */
 
-#include "pana_private.h"
+#include "anacap.h"
+#include "anacap_private.h"
+
+#include <stdint.h>
 
 /*
  * Convert byte stream to uint16_t
  */
 uint16_t
-_bs2uint16(const unsigned char *bs, enum _pana_endian endian)
+_bs2uint16(const unsigned char *bs, enum _endian endian)
 {
     int i;
     uint16_t res;
 
     switch (endian) {
-    case _PANA_ENDIAN_MACHINE:
+    case _ENDIAN_MACHINE:
         /* machine endian */
         res = *(uint16_t *)bs;
         break;
-    case _PANA_ENDIAN_NETWORK:
+    case _ENDIAN_NETWORK:
     default:
         /* big endian */
         res = 0;
@@ -40,17 +43,17 @@ _bs2uint16(const unsigned char *bs, enum _pana_endian endian)
  * Convert byte stream to uint32_t
  */
 uint32_t
-_bs2uint32(const unsigned char *bs, enum _pana_endian endian)
+_bs2uint32(const unsigned char *bs, enum _endian endian)
 {
     int i;
     uint32_t res;
 
     switch (endian) {
-    case _PANA_ENDIAN_MACHINE:
+    case _ENDIAN_MACHINE:
         /* machine endian */
         res = *(uint32_t *)bs;
         break;
-    case _PANA_ENDIAN_NETWORK:
+    case _ENDIAN_NETWORK:
     default:
         /* big endian */
         res = 0;
