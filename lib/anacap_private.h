@@ -5,33 +5,36 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: anacap_private.h,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $ */
+/* $Id: anacap_private.h,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
 
 #ifndef _ANACAP_PRIVATE_H
 #define _ANACAP_PRIVATE_H
 
 #include <stdint.h>
 
+#define _MAX_PACKET_SIZE 0x1000
+
 enum _endian {
     _ENDIAN_MACHINE,
     _ENDIAN_NETWORK,
 };
 
-struct pcap_gheader {
-    uint32_t magic_number;      /* magic number */
-    uint16_t version_major;     /* major version number */
-    uint16_t version_minor;     /* minor version number */
-    int32_t thiszone;           /* GMT to local correction */
-    uint32_t sigfigs;           /* accuracy of timestamps */
-    uint32_t snaplen;           /* max length of captured packets, in octets */
-    uint32_t network;           /* data link type */
-};
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-    uint16_t _bs2uint16(const unsigned char *, enum _endian);
-    uint32_t _bs2uint32(const unsigned char *, enum _endian);
+
+    uint16_t bs2uint16(const unsigned char *, enum _endian);
+    uint32_t bs2uint32(const unsigned char *, enum _endian);
+
+    int
+    proc_l2_ethernet(anacap_t *, anacap_packet_t *, unsigned char *, size_t);
+
+    int proc_l3_ipv4(anacap_t *, anacap_packet_t *, uint8_t *, size_t);
+    int proc_l3_ipv6(anacap_t *, anacap_packet_t *, uint8_t *, size_t);
+
+    int proc_l4_tcp(anacap_t *, anacap_packet_t *, uint8_t *, size_t );
+    int proc_l4_udp(anacap_t *, anacap_packet_t *, uint8_t *, size_t );
+
 #ifdef __cplusplus
 }
 #endif

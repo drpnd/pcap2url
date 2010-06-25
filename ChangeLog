@@ -1,0 +1,21 @@
+2010-06-25  Hirochika Asai  <asai@scyphus.co.jp>
+
+    * include/anacap.h: implemented some functions
+    * lib/anacap.c: implemented gzfile processor
+    * lib/anacap_private.h: implemented some functions
+    * lib/bsconv.c: changed function names
+    * lib/l2.c: implemented Ethernet processor
+    * lib/l3.c: implemented IPv4/IPv6 processor
+    * lib/l4.c: implemented initial TCP/UDP processor
+    * main.c: implemented test program
+
+
+2010-06-23  Hirochika Asai  <asai@scyphus.co.jp>
+
+    * main.c: added
+    * include/anacap.h: added
+    * lib/anacap.c: added
+    * lib/l2.c: added
+    * lib/l3.c: added
+    * lib/l4.c: added
+    * lib/bsconv.c: added

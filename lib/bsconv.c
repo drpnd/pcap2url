@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: bsconv.c,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $ */
+/* $Id: bsconv.c,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
 
 #include "anacap.h"
 #include "anacap_private.h"
@@ -16,7 +16,7 @@
  * Convert byte stream to uint16_t
  */
 uint16_t
-_bs2uint16(const unsigned char *bs, enum _endian endian)
+bs2uint16(const unsigned char *bs, enum _endian endian)
 {
     int i;
     uint16_t res;
@@ -43,7 +43,7 @@ _bs2uint16(const unsigned char *bs, enum _endian endian)
  * Convert byte stream to uint32_t
  */
 uint32_t
-_bs2uint32(const unsigned char *bs, enum _endian endian)
+bs2uint32(const unsigned char *bs, enum _endian endian)
 {
     int i;
     uint32_t res;

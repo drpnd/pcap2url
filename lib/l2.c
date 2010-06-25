@@ -1,22 +1,55 @@
 /*_
- * Copyright 2010 Scyphus Solutions Co.,Ltd.  All rights reserved.
+ * Copyright 2010 Scyphus Solutions Co. Ltd.  All rights reserved.
  *
  * Authors:
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: l2.c,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $ */
+/* $Id: l2.c,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
 
 #include "anacap.h"
 #include "anacap_private.h"
 
 #include <stdlib.h>
 
-void *
-pana_l2_proc(unsigned char *mbuf, uint32_t type)
+/*
+ * Process L2 ethernet frame
+ */
+int
+proc_l2_ethernet(anacap_t *acap, anacap_packet_t *p, unsigned char *mbuf,
+                 size_t len)
 {
-    return NULL;
+    int i;
+
+    /* Check the length */
+    if ( len < 14 ) {
+        return -1;
+    }
+
+    /* Set L2 type to ethernet */
+    p->l2_type = L2_ETHER;
+
+    /* Parse MAC addresses */
+    for ( i = 0; i < 6; i++ ) {
+        p->l2.eth.dst[i] = mbuf[i];
+        p->l2.eth.src[i] = mbuf[i+6];
+    }
+    /* Ethernet type */
+    p->l2.eth.type = bs2uint16(mbuf + 12, _ENDIAN_NETWORK);
+
+    /* Proceed to upper layers */
+    if ( 0x0800 == p->l2.eth.type ) {
+        /* IPv4 */
+        return proc_l3_ipv4(acap, p, mbuf+14, len-14);
+    } else if ( 0x86dd == p->l2.eth.type ) {
+        /* IPv6 */
+        return proc_l3_ipv6(acap, p, mbuf+14, len-14);
+    }
+
+    return 0;
 }
+
+
 
 #if 0
 void
@@ -45,7 +78,7 @@ _proc_ethernet_frame(unsigned char *mbuf, size_t psize, size_t orig_len)
     offset += 12;
 
     /* get the frame type */
-    type = _bs2uint16(mbuf + offset, _ENDIAN_NETWORK);
+    type = bs2uint16(mbuf + offset, _ENDIAN_NETWORK);
     offset += 2;
 
     /* check ethernet type */
@@ -90,7 +123,7 @@ _proc_802_11_frame(unsigned char *mbuf, size_t psize, size_t orig_len)
     offset = 0;
 
     /* get frame control: swapped... */
-    frame_control = _bs2uint16(mbuf + offset, _ENDIAN_NETWORK);
+    frame_control = bs2uint16(mbuf + offset, _ENDIAN_NETWORK);
     offset += 2;
 
     /* get duration: not swapped */

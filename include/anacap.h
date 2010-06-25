@@ -5,14 +5,27 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: anacap.h,v 79df6e8e7b5d 2010/06/23 14:52:39 Hirochika $ */
+/* $Id: anacap.h,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
 
 #ifndef _ANACAP_H
 #define _ANACAP_H
 
+#include <stdio.h>
 #include <stdint.h>
 #include <time.h>
 #include <sys/time.h>
+#include <zlib.h>
+#include <bzlib.h>
+
+/*
+ * anacap type
+ */
+enum _anacap_type {
+    _TYPE_MMAP,
+    _TYPE_FILE,
+    _TYPE_GZ,
+    _TYPE_BZ2,
+};
 
 /*
  * Layer 2 types
@@ -115,9 +128,54 @@ typedef struct _packet {
     } l4;
 } anacap_packet_t;
 
+/*
+ * Instance
+ */
+typedef struct _anacap {
+    enum _anacap_type _type;
+    union {
+        FILE *fp;
+    } file;
+    union {
+        gzFile fp;
+    } gz;
+    union {
+        BZFILE *fp;
+    } bz;
+    union {
+        /* file descripter */
+        int fd;
+        /* buffer */
+        unsigned char *mbuf;
+        /* current pointer */
+        off_t ptr;
+        /* file size */
+        off_t fsize;
+        /* page size */
+        long psize;
+    } mmap;
+    struct {
+        uint32_t magic_number;      /* magic number */
+        uint16_t version_major;     /* major version number */
+        uint16_t version_minor;     /* minor version number */
+        int32_t thiszone;           /* GMT to local correction */
+        uint32_t sigfigs;           /* accuracy of timestamps */
+        uint32_t snaplen;           /* max length of captured packets */
+        uint32_t network;           /* data link type */
+    } gheader;
+    /* need to free on release? */
+    int _need_to_free;
+} anacap_t;
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+    anacap_t * anacap_gzopen(const char *, const char *);
+    int anacap_close(anacap_t *);
+
+    int anacap_loop(anacap_t *, int, void (*)(anacap_packet_t *), void *);
 
 #ifdef __cplusplus
 }
