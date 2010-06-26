@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: main.c,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
+/* $Id: main.c,v 6b82e25fd65d 2010/06/26 05:15:24 Hirochika $ */
 
 #include "anacap.h"
 
@@ -25,11 +25,19 @@ int g_dir;
      && (mac1)[2] == (mac2)[2] && (mac1)[3] == (mac2)[3]        \
      && (mac1)[4] == (mac2)[4] && (mac1)[5] == (mac2)[5])
 
+/*
+ * Analyzer
+ */
 void
 analyze(anacap_packet_t *p)
 {
     double tm;
     int d;
+
+    /* Skip non-ether frame */
+    if ( L2_ETHER != p->l2_type ) {
+        return;
+    }
 
     tm = p->tv.tv_sec + p->tv.tv_usec/1000000.0;
 

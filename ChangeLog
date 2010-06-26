@@ -1,3 +1,9 @@
+2010-06-26  Hirochika Asai  <asai@scyphus.co.jp>
+
+    * lib/anacap.c: implemented mmap mode
+    * lib/main.c: check L2 type in analyzer
+
+
 2010-06-25  Hirochika Asai  <asai@scyphus.co.jp>
 
     * include/anacap.h: implemented some functions

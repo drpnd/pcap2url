@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: anacap.h,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
+/* $Id: anacap.h,v 6b82e25fd65d 2010/06/26 05:15:24 Hirochika $ */
 
 #ifndef _ANACAP_H
 #define _ANACAP_H
@@ -31,6 +31,7 @@ enum _anacap_type {
  * Layer 2 types
  */
 typedef enum _l2_type {
+    L2_NONE,
     L2_ETHER,
     L2_80211,
 } anacap_l2_type_t;
@@ -153,6 +154,8 @@ typedef struct _anacap {
         off_t fsize;
         /* page size */
         long psize;
+        /* mapped length */
+        off_t len;
     } mmap;
     struct {
         uint32_t magic_number;      /* magic number */
