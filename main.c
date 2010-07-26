@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: main.c,v 6b82e25fd65d 2010/06/26 05:15:24 Hirochika $ */
+/* $Id: main.c,v c3f47cbdba35 2010/07/26 14:21:11 Hirochika $ */
 
 #include "anacap.h"
 
@@ -16,8 +16,12 @@
 #define GZ_MODE "rb"
 #define GZW_MODE "wb6f"
 
+/*
+ * For MAWI dataset (http://mawi.wide.ad.jp/)
+ */
 unsigned char mac_us[6] = { 0x00, 0x0e, 0x39, 0xe3, 0x34, 0x00 };
 unsigned char mac_jp[6] = { 0x00, 0x90, 0x69, 0xec, 0xad, 0x5c };
+/*unsigned char mac_jp[6] = { 0x00, 0x16, 0x9c, 0x7c, 0xb0, 0x00 };*/
 int g_dir;
 
 #define COMP_MAC_ADDR(mac1, mac2)                               \
@@ -71,10 +75,17 @@ analyze(anacap_packet_t *p)
 
     if ( L3_IP4 == p->l3_type ) {
         printf("%.6lf %d", tm, p->l3.ip4.proto);
-        printf(" %d.%d.%d.%d %d", p->l3.ip4.src[0], p->l3.ip4.src[1],
-               p->l3.ip4.src[2], p->l3.ip4.src[3], p->l4.tcp.src);
-        printf(" %d.%d.%d.%d %d", p->l3.ip4.dst[0], p->l3.ip4.dst[1],
-               p->l3.ip4.dst[2], p->l3.ip4.dst[3], p->l4.tcp.dst);
+        if ( L4_TCP == p->l3.ip4.proto || L4_UDP == p->l3.ip4.proto ) {
+            printf(" %d.%d.%d.%d %d", p->l3.ip4.src[0], p->l3.ip4.src[1],
+                   p->l3.ip4.src[2], p->l3.ip4.src[3], p->l4.tcp.src_port);
+            printf(" %d.%d.%d.%d %d", p->l3.ip4.dst[0], p->l3.ip4.dst[1],
+                   p->l3.ip4.dst[2], p->l3.ip4.dst[3], p->l4.tcp.dst_port);
+        } else {
+            printf(" %d.%d.%d.%d 0", p->l3.ip4.src[0], p->l3.ip4.src[1],
+                   p->l3.ip4.src[2], p->l3.ip4.src[3]);
+            printf(" %d.%d.%d.%d 0", p->l3.ip4.dst[0], p->l3.ip4.dst[1],
+                   p->l3.ip4.dst[2], p->l3.ip4.dst[3]);
+        }
         printf(" %d", p->len);
         printf("\n");
     } else if ( L3_IP6 == p->l3_type ) {
@@ -83,6 +94,9 @@ analyze(anacap_packet_t *p)
 }
 
 
+/*
+ * Main
+ */
 int
 main(int argc, const char *const argv[], const char *const envp[])
 {
@@ -95,7 +109,7 @@ main(int argc, const char *const argv[], const char *const envp[])
 
     /* Get filename from arguments */
     if ( argc < 3 ) {
-        fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <filename> <direction>\n", argv[0]);
         return EXIT_FAILURE;
     }
     iname = argv[1];

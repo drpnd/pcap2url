@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: anacap.c,v 6b82e25fd65d 2010/06/26 05:15:24 Hirochika $ */
+/* $Id: anacap.c,v c3f47cbdba35 2010/07/26 14:21:11 Hirochika $ */
 
 #include "anacap.h"
 #include "anacap_private.h"
@@ -255,7 +255,7 @@ _loop_gz(anacap_t *acap, int cnt, void (*analyzer)(anacap_packet_t *),
     assert( NULL != acap );
 
     for ( i = 0; i != cnt; i++ ) {
-        if ( 16 == gzread(acap->gz.fp, hbuf, sizeof(hbuf)) ) {
+        if ( 16 != gzread(acap->gz.fp, hbuf, sizeof(hbuf)) ) {
             /* End of file */
             break;
         }

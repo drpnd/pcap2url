@@ -1,3 +1,11 @@
+2010-07-26  Hirochika Asai  <asai@scyphus.co.jp>
+
+    * include/anacap.h: added _port suffix for tcp/udp port labels
+    * lib/l4.c: added _port suffix for tcp/udp port labels
+    * lib/anacap.c: fixed a bug
+    * main.c: fixed a bug
+
+
 2010-06-26  Hirochika Asai  <asai@scyphus.co.jp>
 
     * lib/anacap.c: implemented mmap mode

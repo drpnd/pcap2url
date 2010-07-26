@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: l4.c,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
+/* $Id: l4.c,v c3f47cbdba35 2010/07/26 14:21:11 Hirochika $ */
 
 #include "anacap.h"
 #include "anacap_private.h"
@@ -43,8 +43,8 @@ proc_l4_tcp(anacap_t *acap, anacap_packet_t *p, uint8_t *mbuf, size_t len)
     offset = sizeof(struct tcphdr);
 
     /* Get port numbers */
-    p->l4.tcp.src = ntohs(tcph->th_sport);
-    p->l4.tcp.dst = ntohs(tcph->th_dport);
+    p->l4.tcp.src_port = ntohs(tcph->th_sport);
+    p->l4.tcp.dst_port = ntohs(tcph->th_dport);
 
     return 0;
 }
@@ -69,8 +69,8 @@ proc_l4_udp(anacap_t *acap, anacap_packet_t *p, uint8_t *mbuf, size_t len)
     offset = sizeof(struct udphdr);
 
     /* Get port numbers */
-    p->l4.udp.src = ntohs(udph->uh_sport);
-    p->l4.udp.dst = ntohs(udph->uh_dport);
+    p->l4.udp.src_port = ntohs(udph->uh_sport);
+    p->l4.udp.dst_port = ntohs(udph->uh_dport);
 
     return 0;
 }

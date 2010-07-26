@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: anacap.h,v 6b82e25fd65d 2010/06/26 05:15:24 Hirochika $ */
+/* $Id: anacap.h,v c3f47cbdba35 2010/07/26 14:21:11 Hirochika $ */
 
 #ifndef _ANACAP_H
 #define _ANACAP_H
@@ -85,16 +85,16 @@ typedef struct _ipv6 {
  * L4 TCP
  */
 typedef struct _tcp {
-    uint16_t src;
-    uint16_t dst;
+    uint16_t src_port;
+    uint16_t dst_port;
 } anacap_l4_tcp_t;
 
 /*
  * L4 UDP
  */
 typedef struct _udp {
-    uint16_t src;
-    uint16_t dst;
+    uint16_t src_port;
+    uint16_t dst_port;
 } anacap_l4_udp_t;
 
 /*
