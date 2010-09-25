@@ -5,7 +5,7 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: anacap.h,v c3f47cbdba35 2010/07/26 14:21:11 Hirochika $ */
+/* $Id: anacap.h,v 063444a01fa1 2010/09/25 15:42:48 Hirochika $ */
 
 #ifndef _ANACAP_H
 #define _ANACAP_H
@@ -87,6 +87,22 @@ typedef struct _ipv6 {
 typedef struct _tcp {
     uint16_t src_port;
     uint16_t dst_port;
+    uint8_t orig_flags;
+    struct {
+        unsigned int cwr:1;
+        unsigned int ece:1;
+        unsigned int urg:1;
+        unsigned int ack:1;
+        unsigned int psh:1;
+        unsigned int rst:1;
+        unsigned int syn:1;
+        unsigned int fin:1;
+    } flags;
+    struct {
+        uint8_t *data;
+        uint32_t len;
+        /* Must have orig_len;? */
+    } payload;
 } anacap_l4_tcp_t;
 
 /*
@@ -95,6 +111,10 @@ typedef struct _tcp {
 typedef struct _udp {
     uint16_t src_port;
     uint16_t dst_port;
+    struct {
+        uint8_t *data;
+        uint32_t len;
+    } payload;
 } anacap_l4_udp_t;
 
 /*

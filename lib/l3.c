@@ -5,11 +5,14 @@
  *      Hirochika Asai  <asai@scyphus.co.jp>
  */
 
-/* $Id: l3.c,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $ */
+/* $Id: l3.c,v 063444a01fa1 2010/09/25 15:42:48 Hirochika $ */
 
 #include "anacap.h"
 #include "anacap_private.h"
 
+/* For NetBSD */
+#include <arpa/inet.h>
+#include <netinet/in_systm.h>
 /* ip */
 #include <netinet/ip.h>
 /* ip6 */
