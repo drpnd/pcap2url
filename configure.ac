@@ -1,13 +1,10 @@
 #
-# $Id: configure.ac,v 1a6039a88c34 2010/06/25 07:46:23 Hirochika $
-#
-# Copyright (c) 2010 Scyphus Solutions Co. Ltd. All rights reserved.
-# Authors:
-#      Hirochika Asai  <asai@scyphus.co.jp>
+# Copyright (c) 2010,2017 Hirochika Asai <asai@jar.jp>
+# All rights reserved.
 #
 
 AC_PREREQ(2.59)
-AC_INIT([anacap], [current], [bug@scyphus.co.jp])
+AC_INIT([pcap2url], [current], [bug@jar.jp])
 AC_CONFIG_SRCDIR([main.c])
 AC_CONFIG_HEADER([config.h])
 
